@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="application-container">
+    <div class="modal-header">
+        <div>
+            <h2>Apply for Position</h2>
+            <p>Join our team and make an impact</p>
+        </div>
+        <button class="close-btn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="application-position">
+
+    </div>
+    <div class="application-form">
+        <div class="form-row-flex">
+            <div class="form-row">
+                <label for="firstName">First Name *</label>
+                <input type="text" id="firstName" name="firstName" placeholder="John" required>
+            </div>
+            <div class="form-row">
+                <label for="lastName">Last Name *</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+            </div>
+        </div>
+        <div class="form-row">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" placeholder="john.doe@example.com">
+        </div>
+        <div class="form-row">
+                <label for="phoneNumber">Phone Number *</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="(123) 456-7890">
+        </div>
+        <div class="form-row">
+                <label for="linkedInProfile">linkedIn Profile (Optional)</label>
+                <input type="text" id="linkedInProfile" name="linkedInProfile" placeholder="https://linkedin.com/in/yourprofile">
+        </div>
+        <div class="form-row">
+                <label for="resume">linkedIn Profile (Optional)</label>
+                <div class="input-border">
+                    <input type="image" accept="" class="hidden">
+                    <label for="resume">
+                        <i class="fa-solid fa-upload"></i>
+                        <p>Click to upload your resume</p>
+                        <p>PDF, DOC, or DOCX (Max 5MB)</p>
+                    </label>
+                </div>
+        </div>
+        <div class="form-row">
+                <label for="coverLetter">Cover Letter (Optional)</label>
+                <textarea name="coverLetter" id="coverLetter" placeholder="Tell us why you're interested in this position and what makes you a great fit..."></textarea>
+        </div>
+        <div class="application-actions">
+            <button class="btn cancel">Cancel</button>
+            <button class="btn submit">Submit Application</button>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
