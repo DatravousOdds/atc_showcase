@@ -9,6 +9,7 @@
     --background-primary: #001f3f;
     --background-primary-darker: #051B34;
     --background-light: #001f3f;
+    --bacground-card-dark: #082747;
 
     /* Text Colors */
     --text-color-primary: #B0BEC5;
@@ -40,6 +41,7 @@
 
     /* Border Color */
     --border-color-light:rgba(255, 255, 255, 0.1);
+    --border-color-medium: rgba(255,255,255,0.2);
     
     /* Box Shadows */
     --shadow-color-primary: #BF1234;
@@ -73,7 +75,8 @@
 
 
 body {
-    font-family: var(--font-body)
+    font-family: var(--font-body);
+    color: var(--text-white);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -90,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .s-padding {
-    padding: var(--spacing-3xl) var(--spacing-3xl);
+    padding: var(--spacing-3xl);
 }
 
 
@@ -105,7 +108,9 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
-    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    transition: background-color 0.3s ease,
+                backdrop-filter 0.3s ease,
+                box-shadow 0.3s ease;
 }
 
 /* Scrolled state */
@@ -120,6 +125,7 @@ header.scrolled {
     justify-content: space-between;
     margin: var(--spacing-sm) auto;
     align-items: center;
+    margin: var(--spacing-sm) auto;
 
     
 }
@@ -144,13 +150,21 @@ nav .services-links {
     transition: var(--transition-fast);
     cursor: pointer;
     font-weight: 500;
-
 }
 
-.services-links li:hover {
+
+.services-links li a {
+    text-decoration: none;
+    color: var(--text-color-primary);
+    transition: var(--transition-fast);
+}
+
+.services-links li a:hover {
     color: var(--color-primary);
 } 
 
+
+/* Header Contact */
 .header-contact {
     display: flex;
     align-items: center;
@@ -177,8 +191,13 @@ nav .services-links {
     font-size: var(--font-size-md);
     padding: 1.5rem;
     font-weight: 600;
-    color: white;
+    color: var(--text-white);
     letter-spacing: 1px;
+}
+
+.hero-btn  a {
+    text-decoration: none;
+    color: var(--text-white);
 }
 
 .transparent {
@@ -190,7 +209,7 @@ nav .services-links {
 .contact-quote {
     font-weight: 800;
     background-color: var(--color-button-primary);
-    color: white;
+    color: var(--text-white);
 }
 
 .btn:hover {
@@ -205,15 +224,15 @@ nav .services-links {
     background: transparent;
     border: none;
     font-size: 24px;
-    color: white;
+    color: var(--text-white);
     cursor: pointer;
-    transition: var(--transition-mid);
+    transition: color 0.3s ease;
 }
 
 
 
 .mobile-menu:hover {
-    color: #ED4062;
+    color: var(--color-primary);
 }
 
 .mobile-lg-menu {
@@ -221,14 +240,15 @@ nav .services-links {
     background-color: var(--background-primary-darker);
     width: 100%;
     left: 0;
-    top: 100%;
-    display: none; /* hidden by default */
+    top: 100%; /* hidden by default */
     z-index: 1000;
     padding: 1rem;
     opacity: 0;
     visibility: hidden;
     border-top: 1px solid var(--text-color-primary);
-    transition: opacity var(--transition-mid);
+    transition: opacity 0.3s ease,
+                transform 0.3s ease,
+                visibility 0.3s ease;
     transform: translateY(-10px);
 }
 
@@ -259,6 +279,10 @@ nav .services-links {
 
 }
 
+.mobile-services li:hover {
+    border-bottom: 1px solid var(--color-primary);
+}
+
 .mobile-quote-btn {
     margin: 2rem auto;
     font-weight: 600;
@@ -273,7 +297,12 @@ nav .services-links {
 
 }
 
-.mobile-services li:hover {
+.mobile-services a {
+    text-decoration: none;
+    color: var(--text-white);
+}
+
+.mobile-services li a:hover {
     color: var(--color-primary);
 }
 
@@ -1512,7 +1541,17 @@ footer h4 {
 
 /* MEDIA QUERY */
 
-@media (min-width: 480px) {
+@media (max-width: 480px) {
+
+    .contacts {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid  {
+        grid-template-columns: 1fr;
+        
+    }
+
     nav .services-links,
     .header-contact {
         display: none;
@@ -1545,57 +1584,73 @@ footer h4 {
         grid-template-columns: 1fr;
     }
 
+    .process-steps-grid  {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonials-container  {
+        grid-template-columns: 1fr;
+    }
+
 
 
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     nav .services-links,
     .header-contact {
-        display: flex;
-    }
-
-    .mobile-menu {
         display: none;
     }
 
+    .mobile-menu {
+        display: flex;
+    }
+
     .services-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .certifications {
-        grid-template-columns: 1fr;
-    }
-
-    .about-content {
-        grid-template-columns: 1fr;
-    }
-
-   
-    
-    
-   
-
-    
-}
-
-@media (min-width: 1080px) {
-    
-    .services-grid {
-        grid-template-columns: repeat(4, minmax(300px, 1fr));
-    }
-
-    .certifications {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .about-content {
         grid-template-columns: repeat(2,1fr);
     }
 
+    .certifications {
+        grid-template-columns: 1fr;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+
+
+    .process-steps-grid  {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .process-line {
+        display: none;
+    }
+
     
 
+    .career-content {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid  {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xl);
+    }
+
+   
+    
+    
+   
+
+    
 }
+
+
 
     
     

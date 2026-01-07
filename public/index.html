@@ -6,6 +6,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="/public/css/components/application.css">
+    <link rel="stylesheet" href="/public/css/components/quote.css" />
      <!-- FONT AWESOME -->
       <script src="https://kit.fontawesome.com/854f8a6196.js" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
@@ -13,6 +15,90 @@
     <title>American Traffic Construction</title>
 </head>
 <body>
+    <!-- MODALS-->
+    <div class="modal-overlay">
+       <div class="application-container">
+        <div class="modal-header">
+            <div>
+                <h2>Apply for Position</h2>
+            </div>
+            <button class="close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="application-position">
+            <h3 class="position-title">Traffic Signal Technician</h3>
+            <div class="position-meta">
+                <span>
+                <i class="fa-solid fa-location-dot"></i> 
+                    Fort Worth, TX
+                </span>
+                <span>
+                <i class="fa-solid fa-briefcase"></i> 
+                    Full-Time
+                </span>
+            </div>
+
+        </div>
+
+        <div class="application-form">
+            <div class="form-row-flex">
+                <div class="form-row">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                </div>
+                <div class="form-row">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                </div>
+            </div>
+            <div class="form-row">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" placeholder="john.doe@example.com">
+            </div>
+            <div class="form-row">
+                    <label for="phoneNumber">Phone Number *</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="(123) 456-7890">
+            </div>
+            <div class="form-row">
+                    <label for="linkedInProfile">linkedIn Profile (Optional)</label>
+                    <input type="text" id="linkedInProfile" name="linkedInProfile" placeholder="https://linkedin.com/in/yourprofile">
+            </div>
+            <div class="form-row">
+                    <label for="resume">Resume (Optional)</label>
+                    <div class="input-border">
+                        <input type="file" accept="PDF,DOC,DOCX" class="hidden">
+                        <label for="resume">
+                            <i class="fa-solid fa-upload"></i>
+                            <p>Click to upload your resume</p>
+                            <p>PDF, DOC, or DOCX (Max 5MB)</p>
+                        </label>
+                    </div>
+            </div>
+            <div class="form-row">
+                    <label for="coverLetter">Cover Letter (Optional)</label>
+                    <textarea name="coverLetter" id="coverLetter" placeholder="Tell us why you're interested in this position and what makes you a great fit..."></textarea>
+            </div>
+            <div class="application-actions">
+                <button class="btn cancel">Cancel</button>
+                <button class="btn submit">Submit Application</button>
+            </div>
+        </div>
+    </div>  
+    </div>
+
+    <div class="toast-notification" id="successToast">
+            <div class="toast-content">
+            <div class="toast-header">
+                <p>Message Sent!</p>
+            </div>
+            <div class="toast-message">
+                <p>We'll get back to you within 24 hrs.</p>
+            </div>
+            </div>
+        </div>
+
     <header>
         <div class="header-content">
             <!-- LOGO-->
@@ -22,12 +108,24 @@
             <!-- SERIVCES -->
            <nav>
                 <ul class="services-links">
-                <li>Services</li>
-                <li>About</li>
-                <li>Projects</li>
-                <li>Process</li>
-                <li>Careers</li>
-                <li>Contact</li>
+                <li>
+                    <a href="#services">Services</a>
+                </li>
+                <li>
+                    <a href="#about">About</a>
+                </li>
+                <li>
+                    <a href="#projects">Projects</a>
+                </li>
+                <li>
+                    <a href="#process">Process</a>
+                </li>
+                <li>
+                    <a href="#careers">Careers</a>
+                </li>
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
                 </ul>
             </nav> 
             <!--- CONTACT & QUOTE -->
@@ -48,12 +146,24 @@
         <div class="mobile-lg-menu">
             <nav>
                 <ul class="mobile-services">
-                <li>Services</li>
-                <li>About</li>
-                <li>Projects</li>
-                <li>Process</li>
-                <li>Careers</li>
-                <li>Contact</li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a href="#aboutUs">About</a>
+                    </li>
+                    <li>
+                        <a href="#projects">Projects</a>
+                    </li>
+                    <li>
+                        <a href="#process">Process</a>
+                    </li>
+                    <li>
+                        <a href="#careers">Careers</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
                 </ul>
                 
             </nav> 
@@ -92,10 +202,12 @@
              <div class="hero-buttons">
                 <div class="button-container">
                     <button class="btn hero-btn">
-                        START YOUR PROJECT 
+                        <a href="#contact">START YOUR PROJECT</a> 
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
-                    <button class="btn hero-btn transparent">VIEW OUR WORK</button>
+                    <button class="btn hero-btn transparent">
+                       <a href="#projects">VIEW OUR WORK</a> 
+                    </button>
                 </div>
              </div>
              <!-- ACHIVED -->
@@ -110,12 +222,12 @@
                 </div>
                 <div class="achived-container">
                     <p class="achived-value">98%</p>
-                    <p class="achived-label">Cusomter Satisfaction</p>
+                    <p class="achived-label">Customer Satisfaction</p>
                 </div>
               </div>
         </div>
     </section>
-    <section class="services">
+    <section class="services" id="services">
         <div class="services-content">
             <h4>Our Services</h4>
             <h1 class="services-header">
@@ -168,7 +280,7 @@
                     </div>
                     <!-- TEXT -->
                     <div class="service-text">
-                        <p class="service-title">New Installations</p>
+                        <p class="service-title">Temporary Signal Installations</p>
                         <p class="service-body">Complete traffic signal installation from design to activation. LED technology, smart controllers, and full compliance.</p>
                     </div>
                     <!-- BUTTON-->
@@ -186,7 +298,7 @@
                     </div>
                     <!-- TEXT -->
                     <div class="service-text">
-                        <p class="service-title">New Installations</p>
+                        <p class="service-title">Street Light Upgrades</p>
                         <p class="service-body">Complete traffic signal installation from design to activation. LED technology, smart controllers, and full compliance.</p>
                     </div>
                     <!-- BUTTON-->
@@ -200,7 +312,7 @@
             </div>
         </div>
     </section>
-    <section class="about">
+    <section class="about" id="about">
         <div class="about-content">
             <div class="about-left-content">
                 <img src="./assests/images/about/about1.jpg" alt="" class="about-image">
@@ -228,7 +340,7 @@
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                         <div class="skill-text">
-                            <p>IMSA Certified Technicians</p>
+                            <p>Master Electrician</p>
                         </div>
                     </div>
                     <div class="about-skill">
@@ -236,7 +348,7 @@
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                         <div class="skill-text">
-                            <p>IMSA Certified Technicians</p>
+                            <p>OSHA Certified Technicians</p>
                         </div>
                     </div>
                     <div class="about-skill">
@@ -244,7 +356,7 @@
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                         <div class="skill-text">
-                            <p>IMSA Certified Technicians</p>
+                            <p>IMSA Traffic Signal Technician Level I & II</p>
                         </div>
                     </div>
                     <div class="about-skill">
@@ -252,7 +364,7 @@
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                         <div class="skill-text">
-                            <p>IMSA Certified Technicians</p>
+                            <p>CDL Class A or B</p>
                         </div>
                     </div>
                     <div class="about-skill">
@@ -260,14 +372,14 @@
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                         <div class="skill-text">
-                            <p>IMSA Certified Technicians</p>
+                            <p>Traffic Control Technician (TCT)</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="projects">
+    <section class="projects" id="projects">
         <div class="project-content">
             <div class="project-header">
                 <div class="project-subheader">
@@ -292,7 +404,7 @@
                         </div>
                         <div class="project-location">
                             <div class="city">
-                                Chicago, IL
+                                Fort Worth, TX
                             </div>
                             <div class="material-count">
                                 45 Intersections
@@ -343,7 +455,7 @@
             </div>
         </div>
     </section>
-    <section class="process">
+    <section class="process" id="process">
         <div class="section-content">
             <div class="content-header">
                 <span>How we work</span>
@@ -391,7 +503,6 @@
             </div>
         </div>
     </section>
-
     <section class="testimonials">
         <div class="section-content">
             <div class="content-header">
@@ -470,7 +581,7 @@
             
         </div>
     </section>
-    <section class="careers">
+    <section class="careers" id="careers">
         <div class="section-content s-padding">
             <div class="content-header">
                 <span>Join Our Team</span>
@@ -540,7 +651,7 @@
                                 <div class="info">
                                     <div class="city">
                                         <i class="fa-solid fa-location-dot"></i>
-                                        <p>Atlanta, GA</p>
+                                        <p>Fort Worth, TX</p>
                                     </div>
                                     <div class="position-type">
                                         <i class="fa-regular fa-clock"></i>
@@ -557,12 +668,12 @@
                         </div>
                         <div class="career-position">
                             <div class="career-info">
-                                <h4>Traffic Signal Technician</h4>
+                                <h4>Traffic Signal Electrician</h4>
                                 <p>Field Operations</p>
                                 <div class="info">
                                     <div class="city">
                                         <i class="fa-solid fa-location-dot"></i>
-                                        <p>Atlanta, GA</p>
+                                        <p>Fort Worth, TX</p>
                                     </div>
                                     <div class="position-type">
                                         <i class="fa-regular fa-clock"></i>
@@ -579,12 +690,12 @@
                         </div>
                         <div class="career-position">
                             <div class="career-info">
-                                <h4>Traffic Signal Technician</h4>
+                                <h4>Signal Crew Leader/Foreman</h4>
                                 <p>Field Operations</p>
                                 <div class="info">
                                     <div class="city">
                                         <i class="fa-solid fa-location-dot"></i>
-                                        <p>Atlanta, GA</p>
+                                        <p>Fort Worth, TX</p>
                                     </div>
                                     <div class="position-type">
                                         <i class="fa-regular fa-clock"></i>
@@ -601,12 +712,12 @@
                         </div>
                         <div class="career-position">
                             <div class="career-info">
-                                <h4>Traffic Signal Technician</h4>
+                                <h4>Project Administrator</h4>
                                 <p>Field Operations</p>
                                 <div class="info">
                                     <div class="city">
                                         <i class="fa-solid fa-location-dot"></i>
-                                        <p>Atlanta, GA</p>
+                                        <p>Fort Worth, TX</p>
                                     </div>
                                     <div class="position-type">
                                         <i class="fa-regular fa-clock"></i>
@@ -627,7 +738,7 @@
             
         </div>
     </section>
-    <section class="contact">
+    <section class="contact" id="contact">
         <div class="contact-content">
             <div class="contact-info">
                 <div class="content-header">
@@ -678,7 +789,7 @@
             <div class="contact-form">
                 <div class="form-header">
                     <h3>Request a Quote</h3>
-                    <form action="">
+                    <form id="quoteinfo">
                         <div class="form-row">
                             <label for="name">Full Name</label>
                             <input type="text" id="name" placeholder="John Smith" required>
@@ -699,7 +810,7 @@
                             <textarea name="project" placeholder="Tell us about your project requirements..." id="project"></textarea>
                         </div>
                         <div class="form-actions">
-                            <button type="submit">
+                            <button type="submit" id="quoteSubmitBtn">
                                 SEND MESSAGE
                                 <i class="fa-solid fa-arrow-right"></i>
                             </button>
