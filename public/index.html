@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- FAVICON-->
+     <link rel="icon" href="/public/assests/images/hero/favicon-32x32.png" type="image/x-icon">
     <!-- STYLES-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,7 +89,7 @@
         </div>
     </div>  
     </div>
-
+    <!-- TOAST NOTIFICATION -->
     <div class="toast-notification" id="successToast">
             <div class="toast-content">
             <div class="toast-header">
@@ -103,7 +105,9 @@
         <div class="header-content">
             <!-- LOGO-->
              <div class="header-logo">
-                ATC LOGO
+                <a href="./index.html" class="logo">
+                    <img src="/public/assests/images/hero/AMERICAN_TRAFFIC_CONSTRUCTION_LOGO_CON_LETRAS-removebg-preview.png" alt="ATC LOGO" width="150" height="150">
+                </a>
              </div>
             <!-- SERIVCES -->
            <nav>
@@ -131,12 +135,14 @@
             <!--- CONTACT & QUOTE -->
             <div class="header-contact">
                 <div class="header-phone-number">
-                    <i class="fa-solid fa-phone"></i>
-                    <p class="atc-phone">682-313-7002</p>
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <a href="mailto:petertorres@americantraffictx.com" class="atc-email">petertorres@americantraffictx.com</a>
                 </div>
-                <button class="btn contact-quote">
-                    GET QUOTE
-                </button>
+                <a href="#contact">
+                    <button class="btn contact-quote">GET QUOTE</button>
+                </a>
+                    
+                
             </div>
             <!-- MOBILE BUTTON -->
              <button class="mobile-menu">
@@ -150,7 +156,7 @@
                         <a href="#services">Services</a>
                     </li>
                     <li>
-                        <a href="#aboutUs">About</a>
+                        <a href="#about">About</a>
                     </li>
                     <li>
                         <a href="#projects">Projects</a>
@@ -167,13 +173,16 @@
                 </ul>
                 
             </nav> 
-            <button class="btn mobile-quote-btn">GET QUOTE</button>
+            <a href="#contact">
+                <button class="btn mobile-quote-btn">GET QUOTE</button>
+            </a>
+            
         </div> 
     </header>
     <section class="hero">
         <!-- BACKGROUND IMAGE & OVERLAY -->
         <div class="image-bg-overlay">
-            <img src="./assests/images/hero/hero1.jpg" alt="">
+            <img src="./assests/images/projects/Collins/2111_E_Collins_Blvd.png" alt="">
             <div class="bg-gradient-overlay"></div>
         </div>
         <div class="hero-content"> 
@@ -250,8 +259,11 @@
                     <!-- BUTTON-->
                     <div class="service-action">
                         <button class="service-btn">
-                            Learn More 
+                            <a href="#contact">
+                                Learn More 
                             <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                            
                         </button>
                     </div>
                 </div>
@@ -393,21 +405,21 @@
             </div>
             <div class="project-grid">
                 <div class="project-container project-1">
-                    <img src="/public/assests/images/hero/PHOTO-2025-12-20-10-34-35 5.jpg" class="" alt="">
+                    <img src="/public/assests/images/projects/Jupiter/Jupiter Rd.png" class="" alt="">
                     <div class="image-overlay"></div>
                     <div class="project-description">
                         <div class="project-badge">
                             Full Installation
                         </div>
                         <div class="project-title">
-                            <h3>Downtown Metro Upgrade</h3>
+                            <h3>Jupiter Rd</h3>
                         </div>
                         <div class="project-location">
                             <div class="city">
-                                Fort Worth, TX
+                                Dallas, TX
                             </div>
                             <div class="material-count">
-                                45 Intersections
+                                5+ Signals
                             </div>
                         </div>
                     </div>
@@ -826,7 +838,7 @@
         <div class="footer-grid">
             <div class="f-socials">
                 <div class="footer-logo">
-                    <img src="" alt="ATC Logo">
+                    <img src="/public/assests/images/hero/AMERICAN_TRAFFIC_CONSTRUCTION_LOGO_CON_LETRAS-removebg-preview.png" alt="ATC Logo">
                 </div>
                 <p>Industry-leading traffic signal construction and maintenance. Building safer roads since 2025.</p>
                 <ul class="footer-socials">
@@ -848,16 +860,16 @@
                 <h4>Services</h4>
                 <ul class="services-list">
                     <li>
-                        <a href="#ourServices">New Installations</a>
+                        <a href="#services">New Installations</a>
                     </li>
                     <li>
-                        <a href="#ourServices">Maintenance & Repair</a>
+                        <a href="#services">Maintenance & Repair</a>
                     </li>
                     <li>
-                        <a href="#ourServices">LED Retrofits</a>
+                        <a href="#services">LED Retrofits</a>
                     </li>
                     <li>
-                        <a href="#ourServices">Smart Systems</a>
+                        <a href="#services">Smart Systems</a>
                     </li>
                 </ul>
             </div>
@@ -865,13 +877,13 @@
                 <h4>Company</h4>
                 <ul class="company-list">
                     <li>
-                        <a href="#aboutUs">About Us</a>
+                        <a href="#about">About Us</a>
                     </li>
                      <li>
-                        <a href="#ourProjects">our projects</a>
+                        <a href="#projects">our projects</a>
                     </li>
                      <li>
-                        <a href="#ourProcess">our process</a>
+                        <a href="#process">our process</a>
                     </li>
                      <li>
                         <a href="#contact">contact</a>

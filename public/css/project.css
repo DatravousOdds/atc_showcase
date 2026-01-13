@@ -380,7 +380,7 @@ footer {
     letter-spacing: 1.05px;
 }
 
-.footer-actions button:first-child {
+.footer-actions .get-quote {
     background-color: var(--color-button-primary);
     box-shadow: var(--shadow-lg);
 
@@ -389,12 +389,12 @@ footer {
 
 
 
-.footer-actions button:nth-child(2) {
+.footer-actions .back-home {
     border: 2px solid #1C2C44;
     background-color: transparent;
     transition: var(--transition-mid);
 }
-.footer-actions button:nth-child(2):hover {
+.footer-actions .back-home:hover {
     background-color: #294063;
 }
 
