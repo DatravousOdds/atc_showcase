@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <!-- FAVICON-->
-     <link rel="icon" href="/public/assests/images/hero/favicon-32x32.png" type="image/x-icon">
+     <link rel="icon" href="./assests/images/hero/favicon-32x32.png" type="image/x-icon">
     <!-- STYLES-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
-    <link rel="stylesheet" href="/public/css/components/application.css">
-    <link rel="stylesheet" href="/public/css/components/quote.css" />
+    <link rel="stylesheet" href="./css/components/application.css">
+    <link rel="stylesheet" href="./css/components/quote.css" />
      <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/854f8a6196.js" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
@@ -105,8 +105,8 @@
         <div class="header-content">
             <!-- LOGO-->
              <div class="header-logo">
-                <a href="./index.html" class="logo">
-                    <img src="/public/assests/images/hero/AMERICAN_TRAFFIC_CONSTRUCTION_LOGO_CON_LETRAS-removebg-preview.png" alt="ATC LOGO" width="150" height="150">
+                <a href="/" class="logo">
+                    <img src="./assests/images/hero/AMERICAN_TRAFFIC_CONSTRUCTION_LOGO_CON_LETRAS-removebg-preview.png" alt="ATC LOGO" width="150" height="150">
                 </a>
              </div>
             <!-- SERIVCES -->
@@ -179,16 +179,17 @@
             
         </div> 
     </header>
-    <section class="hero">
+    
+    <section class="hero reveal">
         <!-- BACKGROUND IMAGE & OVERLAY -->
         <div class="image-bg-overlay">
-            <img src="./assests/images/projects/Collins/2111_E_Collins_Blvd.png" alt="">
+            <img src="./assests/images/projects/Collins/2111_E_Collins_Blvd.png" alt="2111 E Collins Blvd Project">
             <div class="bg-gradient-overlay"></div>
         </div>
         <div class="hero-content"> 
             <!-- HERO TEXT -->
              <div class="hero-lg-text">
-                <h1>Building <span class="brd-color">Safer Roads</span> Together</h1>
+                <h1>Making the <span class="brd-color">World Safer</span> one signal at a time</h1>
                 <p class="hero-sm-text">Premier traffic signal construction, installation, and maintenance services. Trusted by municipalities nationwide for over two decades.</p>
              </div>
              <!-- BAGDES-->
@@ -210,13 +211,19 @@
             <!-- BUTTONS -->
              <div class="hero-buttons">
                 <div class="button-container">
-                    <button class="btn hero-btn">
-                        <a href="#contact">START YOUR PROJECT</a> 
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                    <button class="btn hero-btn transparent">
-                       <a href="#projects">VIEW OUR WORK</a> 
-                    </button>
+                    <a href="#contact">
+                        <button class="btn hero-btn">
+                            START YOUR PROJECT
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>  
+                    </a>
+                    
+                    <a href="#projects">
+                        <button class="btn transparent">
+                            VIEW OUR WORK
+                        </button> 
+                    </a>
+                    
                 </div>
              </div>
              <!-- ACHIVED -->
@@ -236,7 +243,8 @@
               </div>
         </div>
     </section>
-    <section class="services" id="services">
+
+    <section class="services reveal" id="services" data-animate-target=".service-container" data-animate-class=".animate-fade-up">
         <div class="services-content">
             <h4>Our Services</h4>
             <h1 class="services-header">
@@ -246,7 +254,7 @@
                 From installation to maintenance, we provide end-to-end traffic signal services for municipalities and contractors.
             </p>
             <div class="services-grid">
-                <div class="service-container">
+                <div class="service-container fade-in-item">
                     <!-- ICON -->
                     <div class="service-icon">
                         <i class="fa-solid fa-bolt"></i>
@@ -267,7 +275,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="service-container">
+                <div class="service-container fade-in-item">
                     <!-- ICON -->
                     <div class="service-icon">
                         <i class="fa-solid fa-wrench"></i>
@@ -280,12 +288,14 @@
                     <!-- BUTTON-->
                     <div class="service-action">
                         <button class="service-btn">
-                            Learn More 
+                            <a href="#contact">
+                                Learn More 
                             <i class="fa-solid fa-arrow-right"></i>
+                            </a>  
                         </button>
                     </div>
                 </div>
-                <div class="service-container">
+                <div class="service-container fade-in-item">
                     <!-- ICON -->
                     <div class="service-icon">
                         <i class="fa-solid fa-clock"></i>
@@ -298,12 +308,14 @@
                     <!-- BUTTON-->
                     <div class="service-action">
                         <button class="service-btn">
-                            Learn More 
+                            <a href="#contact">
+                                Learn More 
                             <i class="fa-solid fa-arrow-right"></i>
+                            </a>   
                         </button>
                     </div>
                 </div>
-                <div class="service-container">
+                <div class="service-container fade-in-item">
                     <!-- ICON -->
                     <div class="service-icon">
                         <i class="fa-solid fa-microchip"></i>
@@ -316,17 +328,24 @@
                     <!-- BUTTON-->
                     <div class="service-action">
                         <button class="service-btn">
-                            Learn More 
+                            <a href="#contact">
+                                Learn More 
                             <i class="fa-solid fa-arrow-right"></i>
+                            </a>  
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="about" id="about">
+
+    <section class="about reveal" id="about" 
+    data-animate-target-left=".about-left-content" 
+    data-animate-class-left=".animate-fade-in-right"
+    data-animate-target-right=".about-right-content"
+    data-animate-class-right=".animate-fade-in-left">
         <div class="about-content">
-            <div class="about-left-content">
+            <div class="about-left-content fade-in-item">
                 <img src="./assests/images/about/about1.jpg" alt="" class="about-image">
                 <div class="about-container"></div>
                 <div class="about-badge">
@@ -334,7 +353,7 @@
                     <p class="year-text">Years of Excellence</p>
                 </div>
             </div>
-            <div class="about-right-content">
+            <div class="about-right-content fade-in-item">
                 <span class="content-header">About American Traffic Construction</span>
                 <h1 class="content-subheader">Trusted Experts in Traffic Signal Construction</h1>
                 <p class="content-text">Since 2025, American Traffic Construction has been at the forefront of traffic signal construction and maintenance. Our team of certified technicians and engineers brings unmatched expertise to every project, from small municipal installations to major highway systems.</p>
@@ -391,21 +410,22 @@
             </div>
         </div>
     </section>
-    <section class="projects" id="projects">
+
+    <section class="projects reveal" id="projects" data-animate-target=".project-container" data-animate-class=".animate-fade-up">
         <div class="project-content">
             <div class="project-header">
                 <div class="project-subheader">
                     <span>OUR WORK</span>
                     <h2>Featured Projects</h2>
                 </div>
-                <a href="pages/projects.html" class="view-all">
+                <a href="/projects" class="view-all">
                     View All Project 
                     <i class="fa-solid fa-up-right-from-square"></i>
                 </a>
             </div>
             <div class="project-grid">
-                <div class="project-container project-1">
-                    <img src="/public/assests/images/projects/Jupiter/Jupiter Rd.png" class="" alt="">
+                <div class="project-container project-1 fade-in-item">
+                    <img src="./assests/images/projects/Jupiter/Jupiter Rd.png" class="" alt="">
                     <div class="image-overlay"></div>
                     <div class="project-description">
                         <div class="project-badge">
@@ -424,8 +444,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="project-container project-2">
-                    <img src="/public/assests/images/hero/PHOTO-2025-12-23-09-37-03.jpg" class="" alt="">
+                <div class="project-container project-2 fade-in-item">
+                    <img src="./assests/images/hero/PHOTO-2025-12-23-09-37-03.jpg" class="" alt="">
                     <div class="image-overlay"></div>
                     <div class="project-description">
                         <div class="project-badge">
@@ -444,8 +464,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="project-container project-3">
-                    <img src="/public/assests/images/hero/PHOTO-2025-12-22-13-12-14 2.jpg" class="" alt="">
+                <div class="project-container project-3 fade-in-item">
+                    <img src="./assests/images/hero/PHOTO-2025-12-22-13-12-14 2.jpg" class="" alt="">
                     <div class="image-overlay"></div>
                     <div class="project-description">
                         <div class="project-badge">
@@ -467,7 +487,8 @@
             </div>
         </div>
     </section>
-    <section class="process" id="process">
+
+    <section class="process reveal" id="process" data-animate-target=".process-step" data-animate-class=".animate-fade-up">
         <div class="section-content">
             <div class="content-header">
                 <span>How we work</span>
@@ -478,7 +499,7 @@
                 <div class="process-line"></div>
                 <div class="process-steps-grid">
 
-                    <div class="process-step">
+                    <div class="process-step fade-in-item">
                         <div class="step">
                             <span>01</span>
                         </div>
@@ -486,7 +507,7 @@
                         <p>We assess your needs, review site conditions, and develop a comprehensive project plan tailored to your requirements.</p>
                     </div>
 
-                    <div class="process-step">
+                    <div class="process-step fade-in-item">
                         <div class="step">
                             <span>02</span>
                         </div>
@@ -494,7 +515,7 @@
                         <p>Our engineers create detailed designs including signal phasing, timing plans, and technical specifications.</p>
                     </div>
 
-                    <div class="process-step">
+                    <div class="process-step fade-in-item">
                         <div class="step">
                             <span>03</span>
                         </div>
@@ -502,7 +523,7 @@
                         <p>Expert crews handle all aspects of installation with minimal disruption to traffic flow and maximum safety.</p>
                     </div>
 
-                    <div class="process-step">
+                    <div class="process-step fade-in-item">
                         <div class="step">
                             <span>04</span>
                         </div>
@@ -515,7 +536,8 @@
             </div>
         </div>
     </section>
-    <section class="testimonials">
+
+    <section class="testimonials reveal" data-animate-target=".testimonial" data-animate-class=".animate-fade-up">
         <div class="section-content">
             <div class="content-header">
                 <span>Testimonials</span>
@@ -523,7 +545,7 @@
                 <p>Don't just take our word for it - hear from the cities and organizations we've partnered with.</p>
             </div>
             <div class="testimonials-container">
-                <div class="testimonial">
+                <div class="testimonial fade-in-item">
                     <div class="testimonials-icon">
                         <i class="fa-solid fa-quote-right"></i>
                     </div>
@@ -545,7 +567,7 @@
                         <p class="client-city">Fort Worth, TX</p>
                     </div>
                 </div>
-                <div class="testimonial">
+                <div class="testimonial fade-in-item">
                     <div class="testimonials-icon">
                         <i class="fa-solid fa-quote-right"></i>
                     </div>
@@ -559,7 +581,7 @@
                         </ul>
                     </div>
                     <div class="testimonial-response">
-                        "American Traffic Construction delivered our downtown signal upgrade project on time and under budget. Their professionalism and expertise exceeded our expectations at every turn."
+                        "American Traffic Construction delivered our Collins signal upgrade project on time and under budget. Their professionalism and expertise exceeded our expectations at every turn."
                     </div>
                     <div class="testimonials-client">
                         <p class="client">Jackson Kenson</p>
@@ -567,7 +589,7 @@
                         <p class="client-city">Fort Worth, TX</p>
                     </div>
                 </div>
-                <div class="testimonial">
+                <div class="testimonial fade-in-item">
                     <div class="testimonials-icon">
                         <i class="fa-solid fa-quote-right"></i>
                     </div>
@@ -593,7 +615,12 @@
             
         </div>
     </section>
-    <section class="careers" id="careers">
+
+    <section class="careers reveal" id="careers" 
+    data-animate-target-left=".career-container" 
+    data-animate-class-left=".animate-fade-in-right"
+    data-animate-target-right=".career-open-positions-container" 
+    data-animate-class-right=".animate-fade-in-left">
         <div class="section-content s-padding">
             <div class="content-header">
                 <span>Join Our Team</span>
@@ -601,7 +628,7 @@
                 <p>We're always looking for talented individuals to join our growing team. Be part of building safer roads across the nation.</p>
             </div>
             <div class="career-content">
-              <div class="career-container">
+              <div class="career-container fade-in-item">
                 <div class="container-header">
                     <h3>Why Work With Us?</h3>
                 </div>
@@ -616,7 +643,7 @@
                         <div class="benefit-icon">
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
-                        <p class="benefit-text">401(k) with company match</p>
+                        <p class="benefit-text">Holidays</p>
                     </div>
                     <div class="benefit">
                         <div class="benefit-icon">
@@ -640,7 +667,7 @@
                         <div class="benefit-icon">
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
-                        <p class="benefit-text">Paid time off & holidays</p>
+                        <p class="benefit-text">Paid time off</p>
                     </div>
                 </div>
                 <div class="career-app-container">
@@ -653,12 +680,12 @@
                 </div>
                 
                 </div>
-                <div class="career-open-positions-container">
+                <div class="career-open-positions-container fade-in-item">
                     <h3>Open Positions</h3>
                     <div class="career-positions">
                         <div class="career-position">
                             <div class="career-info">
-                                <h4>Traffic Signal Technician</h4>
+                                <h4>Equipment Operator</h4>
                                 <p>Field Operations</p>
                                 <div class="info">
                                     <div class="city">
@@ -750,9 +777,14 @@
             
         </div>
     </section>
-    <section class="contact" id="contact">
+
+    <section class="contact reveal" id="contact" 
+    data-animate-target-left=".contact-info" 
+    data-animate-class-left=".animate-fade-in-right"
+    data-animate-target-right=".contact-form" 
+    data-animate-class-right=".animate-fade-in-left">
         <div class="contact-content">
-            <div class="contact-info">
+            <div class="contact-info fade-in-item" >
                 <div class="content-header">
                     <span>Get in touch</span>
                     <h2>Let's Build Safer Roads Together</h2>
@@ -798,7 +830,7 @@
                     </div>
                 </div>
             </div>
-            <div class="contact-form">
+            <div class="contact-form fade-in-item">
                 <div class="form-header">
                     <h3>Request a Quote</h3>
                     <form id="quoteinfo">
@@ -838,7 +870,7 @@
         <div class="footer-grid">
             <div class="f-socials">
                 <div class="footer-logo">
-                    <img src="/public/assests/images/hero/AMERICAN_TRAFFIC_CONSTRUCTION_LOGO_CON_LETRAS-removebg-preview.png" alt="ATC Logo">
+                    <img src="./assests/images/hero/AMERICAN_TRAFFIC_CONSTRUCTION_LOGO_CON_LETRAS-removebg-preview.png" alt="ATC Logo">
                 </div>
                 <p>Industry-leading traffic signal construction and maintenance. Building safer roads since 2025.</p>
                 <ul class="footer-socials">
@@ -894,13 +926,13 @@
                 <h4>Contact</h4>
                 <ul class="contact-list">
                     <li>
-                        <a href="#">4230 Benbrook Hwy <br> Fort Worth, TX 76116</a>
+                        4230 Benbrook Hwy <br> Fort Worth, TX 76116
                     </li>
                     <li>
                         <a href="tel:+8179378937">(817) 937-8937</a>
                     </li>
                     <li>
-                        <a href="mailto:petertorres@americantraffictx.com">petertorres@americantraffictx.com</a>
+                        <a href="mailto:petertorres@americantraffictx.com" style="text-transform: none;">petertorres@americantraffictx.com</a>
                     </li>
                 </ul>
             </div>

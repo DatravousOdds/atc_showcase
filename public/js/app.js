@@ -1,3 +1,13 @@
+
+// Or use this more reliable approach with history
+if (history.scrollRestoration) {
+    history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
+
+
+
 const mobileMenuIcon = document.querySelector('.mobile-menu i');
 const iconContainer = document.querySelector('.mobile-menu');
 const mobileMenu = document.querySelector('.mobile-lg-menu');
@@ -11,11 +21,61 @@ const applicationTitle = document.querySelector('.application-position .position
 const applicationMeta = document.querySelector('.application-position .position-meta')
 const applicationCancelBtn  = document.querySelector('.application-actions .cancel')
 const careerGeneralApplication = document.querySelector('.career-general-app');
+const section = document.querySelector('#services');
 
 
 
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        
+        if (entry.isIntersecting) {
+            const section = entry.target;
+            const data = section.dataset;
+            
+            Object.keys(data).forEach(key => {
+                console.log("Key:", key);
+                if (key.startsWith('animateTarget')) {
+
+                    const suffix = key.replace('animateTarget', '');
+                    const className = `animateClass${suffix}`;
+        
+                    const selector = data[key];
+                    const animateName = data[className];
+
+                    console.log('target', selector)
+                    console.log('animateName', animateName)
+
+                    if (selector && animateName) {
+                        const items = section.querySelectorAll(selector);
+                        const animateClass = animateName.replace('.','');
+                        // loop through and add animate class
+                        items.forEach((item, index) => {
+                            console.log("item:", item);
+                            setTimeout(() => {
+                                item.classList.add(animateClass);
+                            }, index * 300) // stagger animation by 200ms
+                        });
+                    }
+                }
+                
+                
+            })
+
+            
+        } else {
+            console.log("Sectin is out of view");
+            
+        }
+    });
+}, {
+    threshold: 0.1
+});
 
 
+document.querySelectorAll('.reveal').forEach(el => {
+    // console.log("section:", el)
+    observer.observe(el)
+})
 
 modalCloseBtn.addEventListener('click', () => {
     if(modalOverlay) {
@@ -86,8 +146,6 @@ careerPositions.forEach((pos, idx) => {
         document.body.style.overflow = 'none';
     })
 })
-
-
 
 iconContainer.addEventListener('click', () => {
     const icon = iconContainer.querySelector('i');

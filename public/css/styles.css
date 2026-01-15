@@ -131,7 +131,7 @@ header.scrolled {
 }
 
 .logo img {
-    width: 50px;
+    width: 59px;
     height: auto;
     object-fit: contain;
 
@@ -172,6 +172,73 @@ nav .services-links {
     color: var(--color-primary);
 } 
 
+/* Header Animations */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-780px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(780px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Animation Classes */
+
+/* Initial state for elements to be animated */
+.fade-in-item {
+    opacity: 0;
+
+}
+
+.animate-fade-in-right {
+    animation: slideRight 0.6s ease-out forwards;
+}
+
+.animate-fade-in-left {
+    animation: slideLeft 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+
+
 
 /* Header Contact */
 .header-contact {
@@ -196,7 +263,7 @@ nav .services-links {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.hero-btn {
+.button-container button {
     font-size: var(--font-size-md);
     padding: 1.5rem;
     font-weight: 600;
@@ -334,11 +401,16 @@ nav .services-links {
     position: relative;
     z-index: 1;
     max-width: 800px;
+    animation: fadeUp 0.8s ease-out 0.4s both;
+}
+
+.animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
 }
 
 .hero-lg-text h1 {
     color: white;
-    max-width: 400px;
+    max-width: 800px;
     font-weight: 600;
     font-size: 4rem;
     line-height: 1;
@@ -392,20 +464,20 @@ nav .services-links {
     flex-wrap: wrap;
 }
 
-.button-container button:first-child {
+.button-container .hero-btn {
     background-color: var(--color-button-primary);
 }
 
-.button-container button:first-child:hover {
+.button-container .hero-btn:first-child:hover {
     background-color: var(--color-button-light);
 }
 
-.button-container button:nth-child(2) {
-    border: 3px solid var(--color-button-primary);
-    box-shadow: none;
+.button-container .transparent {
+    border: 3px solid var(--color-button-primary) !important;
+    box-shadow: none !important;
 }
 
-.button-container button:nth-child(2):hover {
+.button-container .transparent:hover {
     background-color: var(--color-button-primary);
 }
 
@@ -525,7 +597,10 @@ nav .services-links {
     align-items: flex-start;
     text-align: left;
     transition: all 0.3s ease-in;
+    /* Automatically adds 100ms of delay for each subsequent item */
+    animation-delay: calc(sibling-index() * 100ms);
 }
+
 .service-container:hover {
     border: 1px solid var(--color-button-light);
 
@@ -1471,7 +1546,8 @@ footer ul {
     object-fit: contain;
 }
 
-footer a {
+footer a,
+footer li {
     text-decoration: none;
     font-size: var(--font-size-sm);
     color: var(--text-color-primary);
@@ -1504,14 +1580,15 @@ footer a {
     gap: var(--spacing-sm);
 }
 
-.services-list li:hover,
-.company-list li:hover,
-.contact-list li:hover {
+.services-list li a:hover,
+.company-list li a:hover {
     color: var(--color-primary);
 }
 
 .services-list a,
-.company-list a 
+.company-list a,
+.contact-list a,
+.contact-list li 
 {
     font-size: var(--font-size-sm);
     text-transform: capitalize;
@@ -1535,6 +1612,7 @@ footer a {
     width: 2.5rem;
     height: 2.5rem;
     display: flex;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 

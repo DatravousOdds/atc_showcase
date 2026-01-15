@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express": "^5.2.1",
-    "nodemailer": "^7.0.12"
+    "nodemailer": "^7.0.12",
+    "pg": "^8.17.1"
   }
 }
