@@ -1,4 +1,13 @@
+
+
 {
+  "name": "atc_showcase",
+  "version": "1.0.0",
+  "description": "A showcase of American Traffic Construction's work and services.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^5.2.1",
     "nodemailer": "^7.0.12",

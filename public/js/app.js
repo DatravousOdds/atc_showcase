@@ -11,17 +11,30 @@ window.scrollTo(0, 0);
 const mobileMenuIcon = document.querySelector('.mobile-menu i');
 const iconContainer = document.querySelector('.mobile-menu');
 const mobileMenu = document.querySelector('.mobile-lg-menu');
+
+const quoteForm = document.getElementById('quoteForm');
 const quoteSubmitBtn = document.getElementById('quoteSubmitBtn');
+
 const successToast = document.getElementById('successToast');
+const successToastMessage = successToast.querySelector('.toast-content');
+
 const form = document.getElementById('quoteinfo');
+
 const careerPositions = document.querySelectorAll('.career-position');
+const careerGeneralApplication = document.querySelector('.career-general-app');
+
 const modalOverlay = document.querySelector('.modal-overlay')
 const modalCloseBtn = document.querySelector('.close-btn');
+
 const applicationTitle = document.querySelector('.application-position .position-title');
 const applicationMeta = document.querySelector('.application-position .position-meta')
 const applicationCancelBtn  = document.querySelector('.application-actions .cancel')
-const careerGeneralApplication = document.querySelector('.career-general-app');
+const applicationSubmitBtn = document.querySelector('.application-actions .submit')
+
 const section = document.querySelector('#services');
+
+const resumeInput = document.getElementById('resume');
+const resumeButton = document.querySelector('.input-border');
 
 
 
@@ -71,11 +84,30 @@ const observer = new IntersectionObserver((entries) => {
     threshold: 0.1
 });
 
-
 document.querySelectorAll('.reveal').forEach(el => {
-    // console.log("section:", el)
-    observer.observe(el)
+    observer.observe(el);
 })
+
+
+resumeButton.addEventListener('click', () => {
+    resumeInput.click();
+});
+
+resumeInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    console.log("Selected file:", file);
+    if (file && file.size < 2 * 1024 * 1024) { // limit file size to 2MB
+        // get file url
+        const fileURL = URL.createObjectURL(file);
+        console.log("Selected file URL:", fileURL);
+
+        resumeButton.innerHTML = `<i class="fa-solid fa-file"></i>
+        <p>${file.name}</p>
+
+
+        `;
+    }
+});
 
 modalCloseBtn.addEventListener('click', () => {
     if(modalOverlay) {
@@ -93,6 +125,68 @@ applicationCancelBtn.addEventListener('click', () => {
     }
    
 })
+
+applicationSubmitBtn.addEventListener('click', () => {  
+    // submit application form
+    const applicationData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phoneNumber').value,
+        position: applicationTitle.textContent,
+        resume: resumeInput.files[0] ? URL.createObjectURL(resumeInput.files[0]) : null,
+        linkedin: document.getElementById('linkedInProfile').value,
+        jobLocation: applicationMeta.querySelector('span:nth-child(1)').textContent.trim(),
+        jobType: applicationMeta.querySelector('span:nth-child(2)').textContent.trim(),
+        coverLetter: document.getElementById('coverLetter').value ? document.getElementById('coverLetter').value : null
+    };
+
+    console.log("Submitting application:", applicationData);
+
+    // send application data to server
+    fetch('/api/apply', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(applicationData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Application response:", data);
+        if (data.applicationId) {
+            // show success message
+            successToastMessage.innerHTML = `
+                <div class="toast-header">
+                    <p>Application Submitted!</p>
+                </div>
+                <div class="toast-message">
+                    <p>We'll review your application and get back to you</p>
+                </div>
+            `;
+            successToast.classList.add('show');
+
+            setTimeout(() => {
+                successToast.classList.remove('show')
+            }, 3000)
+
+            // reset form
+            document.getElementById('applicationForm').reset();
+            if (modalOverlay) {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = 'scroll';
+            }
+        } else {
+            alert('Failed to submit application. Please try again later.');
+        }
+    })
+    .catch(error => {
+        console.error('Error submitting application:', error);
+        alert('An error occurred while submitting your application. Please try again later.');
+    });
+
+   
+});
 
 careerGeneralApplication.addEventListener('click', () => {
     console.log("general")
@@ -164,12 +258,42 @@ iconContainer.addEventListener('click', () => {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    // send email 
-    sendData();
-    // show toast notification
-    if (sendData()) {
-        successToast.classList.add('show');
-    }
+   
+    const formData = new FormData(form);
+    const formObject = Object.fromEntries(formData.entries());
+   
+    fetch('/api/quote', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formObject)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Quote response:", data);
+        if (data.quoteId) {
+            // show success message
+            successToastMessage.innerHTML = `
+                <div class="toast-header">
+                    <p>Message Sent!</p>
+                </div>
+                <div class="toast-message">
+                    <p>We'll get back to you within 24 hrs.</p>
+                </div>
+            `;
+            successToast.classList.add('show');
+            // reset form
+            form.reset();
+        } else {
+            alert('Failed to submit quote request. Please try again later.');
+        }
+    })
+    .catch(error => {
+        console.error('Error submitting quote request:', error);
+        alert('An error occurred while submitting your quote request. Please try again later.');
+    });
+    
 
     setTimeout(() => {
         successToast.classList.remove('show')
@@ -188,7 +312,5 @@ window.addEventListener('scroll', function() {
 })
 
 
-function sendData() {
-    return true;
-}
+
 

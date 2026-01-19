@@ -1641,7 +1641,7 @@ footer h4 {
 
 /* MEDIA QUERY */
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
 
     .contacts {
         grid-template-columns: 1fr;
@@ -1750,6 +1750,24 @@ footer h4 {
     
 }
 
+@media (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    nav .services-links {
+        display: none;
+    }
+
+    .header-contact {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: flex;
+    }
+
+}
 
 
     
