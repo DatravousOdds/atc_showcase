@@ -10,6 +10,17 @@
             "username": "postgres",
             "database": "atc_contracts",
             "name": "db_showcase"
+        },
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "showcase_db",
+            "database": "atc_contracts",
+            "username": "postgres",
+            "password": "postgres"
         }
     ]
 }

@@ -6,11 +6,11 @@ const { Pool } = require('pg');
 
 // Database connection setup
 const credentials = {
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT, 
+    user: process.env.DB_USER || 'postgres',
+    host: process.env.DB_HOST || 'localhost',
+    database: process.env.DB_NAME || 'atc_contracts',
+    password: process.env.DB_PASSWORD || 'postgres',
+    port: process.env.DB_PORT || 5432,
 };
 
 
@@ -99,7 +99,7 @@ app.post('/api/quote', express.json(), (req, res) => {
     console.log("Received quote request:", req.body);
 
     try {
-        const insertQuery = `INSERT INTO website_quotes (name, email, phone, project_details) VALUES ($1, $2, $3, $4) RETURNING id`;
+        const insertQuery = `INSERT INTO website_quotes (full_name, email, phone, project_detail) VALUES ($1, $2, $3, $4) RETURNING id`;
         const values = [name, email, phone, projectDetails];
 
         pool.query(insertQuery, values, (err, result) => {

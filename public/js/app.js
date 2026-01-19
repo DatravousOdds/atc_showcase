@@ -171,7 +171,27 @@ applicationSubmitBtn.addEventListener('click', () => {
             }, 3000)
 
             // reset form
-            document.getElementById('applicationForm').reset();
+            applicationData.firstName = '';
+            applicationData.lastName = '';
+            applicationData.email = '';
+            applicationData.phone = '';
+            applicationData.resume = null;
+            applicationData.linkedin = '';
+            applicationData.coverLetter = '';
+
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phoneNumber').value = '';
+            document.getElementById('linkedInProfile').value = '';
+            document.getElementById('coverLetter').value = '';
+            resumeInput.value = '';
+
+            resumeButton.innerHTML = `
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <p>Upload Resume (Max 2MB)</p>
+            `;
+
             if (modalOverlay) {
                 modalOverlay.classList.remove('active');
                 document.body.style.overflow = 'scroll';
