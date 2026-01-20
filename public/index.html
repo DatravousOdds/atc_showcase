@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <!-- FAVICON-->
      <link rel="icon" href="./assets/images/hero/favicon-32x32.png" type="image/x-icon">
     <!-- STYLES-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/components/application.css">
-    <link rel="stylesheet" href="./css/components/quote.css" />
+    <link rel="stylesheet" href="./css/components/quote.css">
      <!-- FONT AWESOME -->
     <script src="https://kit.fontawesome.com/854f8a6196.js" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>American Traffic Construction</title>
 </head>
@@ -30,15 +31,15 @@
         </div>
 
         <div class="application-position" for="position">
-            <h3 name="position" class="position-title">Traffic Signal Technician</h3>
+            <h3 id="position" class="position-title"></h3>
             <div class="position-meta">
                 <span class="location">
                 <i class="fa-solid fa-location-dot"></i> 
-                   <p>Fort Worth, TX</p>
+                   <p id="location">Fort Worth, TX</p>
                 </span>
                 <span class="type">
                     <i class="fa-solid fa-briefcase"></i> 
-                    <p>Full-Time</p>
+                    <p id="type">Full-Time</p>
                 </span>
             </div>
 
@@ -70,8 +71,8 @@
             <div class="form-row">
                     <label for="resume">Resume (Optional)</label>
                     <div class="input-border">
-                        <input id="resume" type="file" accept="PDF,DOC,DOCX" class="hidden">
-                        <label>
+                        <input id="resume" type="file" accept=".pdf,.doc,.docx" class="hidden">
+                        <label for="resume">
                             <i class="fa-solid fa-upload"></i>
                             <p>Click to upload your resume</p>
                             <p>PDF, DOC, or DOCX (Max 5MB)</p>
@@ -83,11 +84,7 @@
                     <textarea name="coverLetter" id="coverLetter" placeholder="Tell us why you're interested in this position and what makes you a great fit..."></textarea>
             </div>
 
-            <!-- Hidden fields populated by JS -->
-            <input type="hidden" name="position" id="position">
-            <input type="hidden" name="location" id="location">
-            <input type="hidden" name="type" id="type">
-            <input type="hidden" name="job_status" id="job_status" value="pending">
+            
 
             <div class="application-actions">
                 <button class="btn cancel">Cancel</button>
@@ -864,7 +861,7 @@
                             </div>
                             <div class="form-row">
                                 <label for="phone">Phone</label>
-                                <input name="phone" type="tel" id="phone" placeholder="(123)456-7890" required>
+                                <input name="phone" type="tel" id="phone" placeholder="(123) 456-7890" required>
                             </div> 
                         </div>
                         

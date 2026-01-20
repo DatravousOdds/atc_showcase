@@ -37,7 +37,7 @@ const resumeInput = document.getElementById('resume');
 const resumeButton = document.querySelector('.input-border');
 
 
-
+// ========== ANIMATION ON SCROLL ==========
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         
@@ -89,23 +89,47 @@ document.querySelectorAll('.reveal').forEach(el => {
 })
 
 
+
+// ========== RESUME UPLOAD HANDLING ==========
 resumeButton.addEventListener('click', () => {
     resumeInput.click();
 });
 
 resumeInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
-    console.log("Selected file:", file);
-    if (file && file.size < 2 * 1024 * 1024) { // limit file size to 2MB
-        // get file url
-        const fileURL = URL.createObjectURL(file);
-        console.log("Selected file URL:", fileURL);
 
-        resumeButton.innerHTML = `<i class="fa-solid fa-file"></i>
-        <p>${file.name}</p>
+    console.log("📁 File selected:", file);
 
+    if  (file) {
+        // check file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size exceeds 5MB limit. Please choose a smaller file.');
+            resumeInput.value = ''; // reset input
+            return;
+        } else {
+            // check file type
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Invalid file type. Please upload a PDF, DOC, or DOCX file.');
+                resumeInput.value = ''; // reset input
+                return;
+            }
+        }
 
+        resumeButton.innerHTML = `
+            <i class="fa-solid fa-check-circle" style="color: #10b981"></i>
+            <p style="color: #10b981"> ${file.name} selected</p>
+            <p style="color: #666; font-size: 0.8rem;">(Click to change)</p>
         `;
+
+        console.log("✅ File is valid:", file.name, file.size, "bytes");
+    } else {
+        resumeButton.innerHTML = `
+            <i class="fa-solid fa-upload"></i>
+            <p>Click to upload your resume</p>
+            <p>PDF, DOC, or DOCX (Max 5MB)</p>
+        `;
+        console.log("No file selected");
     }
 });
 
@@ -126,83 +150,81 @@ applicationCancelBtn.addEventListener('click', () => {
    
 })
 
-applicationSubmitBtn.addEventListener('click', async () => {  // ← Added async
-    // Get form values
-    const firstName = document.getElementById('firstName').value,
-          lastName = document.getElementById('lastName').value,
-          email = document.getElementById('email').value,
-          phone = document.getElementById('phoneNumber').value,
-          linkedInProfile = document.getElementById('linkedInProfile').value,
-          coverLetter = document.getElementById('coverLetter').value || null;
+applicationSubmitBtn.addEventListener('click', async () => {
+    
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phoneNumber').value;
+    const linkedInUrl = document.getElementById('linkedInProfile').value;
+    const coverLetter = document.getElementById('coverLetter').value;
+    const positionTitle = applicationTitle.textContent;
+    const positionLocation = document.getElementById('location').textContent.trim();
+    const positionType = document.getElementById('type').textContent.trim();
+    
+    const resumeFile = resumeInput.files[0]; // Get the selected file
+    
 
-    const type = applicationMeta.querySelector('span:nth-child(2)').textContent.trim(),
-          position = applicationTitle.textContent,
-          location = applicationMeta.querySelector('span:nth-child(1)').textContent.trim();
+    console.log("Submitting application for:", 
+        "position title: ", positionTitle,
+        "location: ", positionLocation,
+        "position type: ", positionType,
+        "firstName: ", firstName,
+        "lastName: ", lastName,
+        "email: ", email,
+        "phone: ", phone,
+        "linkedInUrl: ", linkedInUrl,
+        "resumeFile: ", resumeFile,  // ← This will now show the actual file object or undefined
+        "coverLetter: ", coverLetter
+    );
 
-    // Handle resume upload
-    let resumePath = null;
-    const resumeFile = resumeInput.files[0];
-
-    if (resumeFile) { 
-        try {
-            const formData = new FormData();
-            formData.append('resume', resumeFile);
-
-            // Upload resume to server
-            const uploadResponse = await fetch('/api/uploadResume', {
-                method: 'POST',
-                body: formData
-            });
-            
-            const uploadResult = await uploadResponse.json();
-            resumePath = uploadResult.filePath;
-            console.log("Uploaded resume path:", resumePath);
-
-        } catch (err) {
-            console.error('Error uploading resume:', err);
-            alert('An error occurred while uploading your resume. Please try again later.');
-            return;
-        }
+    // Validation
+    if (!firstName || !lastName || !email || !phone) {
+        alert('Please fill in all required fields');
+        return;
     }
 
-    // Build application data
-    const applicationData = {
-        firstName,
-        lastName,
-        email,
-        phone_number: phone,
-        linkedInProfile,
-        resume: resumePath,
-        coverLetter,
-        position,
-        location,
-        type,
-        job_status: 'pending'
-    };
-        
-    console.log("Submitting application:", applicationData);
+    // Create FormData
+    const formData = new FormData();
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('email', email);
+    formData.append('phone_number', phone);
+    formData.append('linkedInProfile', linkedInUrl);
+    formData.append('coverLetter', coverLetter);
+    formData.append('position', positionTitle);
+    formData.append('location', positionLocation);
+    formData.append('type', positionType);
+    
+    // Only append file if one was selected
+    if (resumeFile) {
+        formData.append('resume', resumeFile);
+        console.log("Resume file attached:", resumeFile.name, resumeFile.size, "bytes");
+    } else {
+        console.log("No resume file selected");
+    }
 
-    // Submit application
+    // Disable button
+    applicationSubmitBtn.disabled = true;
+    applicationSubmitBtn.textContent = 'Submitting...';
+
     try {
-        const response = await fetch('/api/apply', {
+        const response = await fetch('/api/applications', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(applicationData)
+            body: formData
         });
 
-        const result = await response.json();
-        console.log("Application response:", result);
+        if (response.ok) {
+            const result = await response.json();
+            console.log("Application response:", result);
 
-        if (result.applicationId) {
-            // Show success message
+            // Show success 
             successToastMessage.innerHTML = `
                 <div class="toast-header">
                     <p>Application Submitted!</p>
                 </div>
                 <div class="toast-message">
-                    <p>Thank you for applying. We'll review your application and get back to you soon.</p>
+                    <p>Thank you for applying. We will review your application and get back to you soon.</p>
                 </div>
             `;
             successToast.classList.add('show');
@@ -220,24 +242,31 @@ applicationSubmitBtn.addEventListener('click', async () => {  // ← Added async
             document.getElementById('coverLetter').value = '';
             resumeInput.value = '';
             resumeButton.innerHTML = `
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-                <p>Upload Resume (Max 2MB)</p>
+                <i class="fa-solid fa-upload"></i>
+                <p>Click to upload your resume</p>
+                <p>PDF, DOC, or DOCX (Max 5MB)</p>
             `;
 
-            // Close modal
-            if (modalOverlay) {
-                modalOverlay.classList.remove('active');
-                document.body.style.overflow = 'scroll';
-            }
-
-        } else {
-            alert('Failed to submit application. Please try again later.');
         }
-            
-    } catch (err) {
-        console.error('Error submitting application:', err);
+
+        
+
+    } catch (error) {
+        console.error('Error submitting application:', error);
         alert('An error occurred while submitting your application. Please try again later.');
+    } finally {
+        // Re-enable button
+        applicationSubmitBtn.disabled = false;
+        applicationSubmitBtn.textContent = 'Submit Application';
+
+        // Close modal
+        if (modalOverlay) {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = 'scroll';
+        }
     }
+
+    
 });
 
 careerGeneralApplication.addEventListener('click', () => {
@@ -246,15 +275,15 @@ careerGeneralApplication.addEventListener('click', () => {
         applicationMeta.innerHTML = `
                 <span>
                         <i class="fa-solid fa-location-dot"></i> 
-                        Multiple Locations
+                        <p id="location">Multiple Locations</p>
                     </span>
                     <span>
                         <i class="fa-solid fa-briefcase"></i> 
-                        Various
+                        <p id="type">Various</p>
                     </span>
                     <span>
                         <i class="fa-solid fa-building"></i> 
-                        Open Position
+                        <p id="position">Open Position</p>
                     </span>
             `;
         if (modalOverlay) {
@@ -280,11 +309,11 @@ careerPositions.forEach((pos, idx) => {
         applicationMeta.innerHTML = `
             <span>
                 <i class="fa-solid fa-location-dot"></i> 
-                    ${jobLocation.textContent}
+                    <p id="location">${jobLocation.textContent}</p>
                 </span>
                 <span>
                 <i class="fa-solid fa-briefcase"></i> 
-                    ${jobStatus.textContent}
+                    <p id="type">${jobStatus.textContent}</p>
                 </span>
         `;
 
@@ -335,6 +364,10 @@ form.addEventListener('submit', (e) => {
                 </div>
             `;
             successToast.classList.add('show');
+
+            setTimeout(() => {
+                successToast.classList.remove('show');
+            }, 4000);
             // reset form
             form.reset();
         } else {

@@ -1,20 +1,46 @@
 require('dotenv').config();
-
 const nodemailer = require('nodemailer');
 const express = require('express');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 const { Pool } = require('pg');
 
 // Database connection setup
 const credentials = {
-    user: process.env.DB_USER || 'postgres',
-    host: process.env.DB_HOST || 'localhost',
-    database: process.env.DB_NAME || 'atc_contracts',
-    password: process.env.DB_PASSWORD || 'postgres',
-    port: process.env.DB_PORT || 5432,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
 };
+
+
+// Configure Cloudinary
+cloudinary.config({ 
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET 
+});
+
+// Configure Cloudinary storage for Multer
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'atc_resumes',
+        allowed_formats: ['pdf', 'doc', 'docx'],
+        resource_type: 'raw',
+        public_id: (req, file) => {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            return 'resume-' + uniqueSuffix;
+        }
+    }
+});
+
+const uploadResume = multer({ storage: storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB limit
 
 
 
@@ -35,10 +61,12 @@ const PORT = 3000;
 
 
 const transporter = nodemailer.createTransport({
-    service: 'outlook',
+    host: 'smtp.hostinger.com',
+    port: 587,
+    secure: false,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: 'datravousodds@americantraffictx.com',
+        pass: 'Travis010799@'
     }
 });
 
@@ -50,12 +78,13 @@ const getEmailTemplate = (firstName, quoteId, serviceType, projectDescription) =
     <head>
         <style>
             body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+
             .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background-color: #007bff; color: white; padding: 30px; text-align: center; }
+            .header { background-color: #ff0d00; color: white; padding: 30px; text-align: center; }
             .content { padding: 30px; background-color: #f9f9f9; }
-            .quote-box { background: white; padding: 20px; border-left: 4px solid #007bff; margin: 20px 0; }
+            .quote-box { background: white; padding: 20px; border-left: 4px solid #ff0d00; margin: 20px 0; }
             .footer { text-align: center; padding: 20px; font-size: 12px; color: #666; }
-            .button { display: inline-block; padding: 12px 30px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            .button { display: inline-block; padding: 12px 30px; background-color: #ff0d00; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
         </style>
     </head>
     <body>
@@ -81,14 +110,14 @@ const getEmailTemplate = (firstName, quoteId, serviceType, projectDescription) =
                     <li>You'll receive a follow-up email with pricing and next steps</li>
                 </ul>
                 
-                <p>Questions? Call us at <strong>(123) 456-7890</strong> or reply to this email.</p>
+                <p>Questions? Call us at <strong>(682) 470-2126 </strong> or reply to this email.</p>
                 
                 <center>
-                    <a href="http://yourwebsite.com/quote/${quoteId}" class="button">View Your Quote</a>
+                    <a href="http://americantraffictx.com/quote/${quoteId}" class="button">View Your Quote</a>
                 </center>
             </div>
             <div class="footer">
-                <p>© 2025 Your Company Name. All rights reserved.</p>
+                <p>© 2025 American Traffic Construction, LLC. All rights reserved.</p>
                 <p>This is an automated message from our quote system.</p>
             </div>
         </div>
@@ -97,42 +126,73 @@ const getEmailTemplate = (firstName, quoteId, serviceType, projectDescription) =
     `;
 };
 
+// submit job application
+app.post('/api/applications', uploadResume.single('resume'), async (req, res) => {
+    try {
+        const { firstName, lastName, email, phone, linkedInProfile, coverLetter, position, location, job_status, type } = req.body;
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/resumes/');
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, 'resume-' + uniqueSuffix + path.extname(file.originalname));
+        const resumeFilePath = req.file.path ? req.file.path : null; // Cloudinary URL
+
+        console.log("Received application:", { firstName, lastName, email, phone, linkedInProfile, resumeFilePath, coverLetter, position, location, type, job_status });
+        // Save application data to the database
+        const result = pool.query(
+            `INSERT INTO website_applications 
+            (first_name, last_name, email, phone_number, linkedin_url, resume_file_path, cover_letter, job_position, job_location, application_type, application_status) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`,
+            [
+                firstName, lastName, email, phone,
+                linkedInProfile, resumeFilePath, coverLetter,
+                position, location, type, job_status
+            ]
+        );
+
+        console.log('Application saved with ID:', (await result).rows[0].id);
+
+        // send email notification to admin
+        const adminMailOptions = {
+            from: `American Traffic Construction <${process.env.EMAIL_FROM}>`,
+            to: process.env.ADMIN_EMAIL,
+            subject: 'New Job Application Received',
+            html: `
+                <h2>New Job Application Received</h2>
+                <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone_number}</p>
+                <p><strong>Position Applied For:</strong> ${position}</p>
+                <p><strong>Location:</strong> ${location}</p>
+                <p><strong>Application Type:</strong> ${type}</p>
+                ${ resumeFilePath ? `<p><strong>Resume:</strong> <a href="${resumeFilePath}">View Resume</a></p>` : '<p><strong>Resume:</strong> Not provided</p>' }
+            `
+        };
+
+        await transporter.sendMail(adminMailOptions);
+        console.log('Notification email sent to ${process.env.ADMIN_EMAIL}');
+
+
+        // send confirmation email to applicant
+        const clientMailOptions = {
+            from: `American Traffic Construction <${process.env.EMAIL_FROM}>`,
+            to: email,
+            subject: 'Application Received - Thank You for Applying',
+            html: `
+                <h2>Thank You for Applying!</h2>
+                <p>Dear ${firstName},</p>
+                <p>We have received your application for the position of ${position} at our ${location} location. Our team will review your application and get back to you shortly.</p>
+                <p>If you have any questions, feel free to reply to this email or call us at (682) 470-2126.</p>
+                <p>Best regards,<br/>American Traffic Construction Team</p>
+            `
+        };
+
+        await transporter.sendMail(clientMailOptions);
+        console.log('Confirmation email sent to:', email);
+
+        res.status(201).json({ message: 'Application submitted successfully' });
+
+    } catch (err) {
+        console.error('Error processing application', err.stack);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
-});
 
-const upload = multer({ 
-    storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
-    fileFilter: function (req, file, cb) {
-        const filetypes = /pdf|doc|docx/;
-        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-        const mimetype = filetypes.test(file.mimetype);
-        if (mimetype && extname) {
-            return cb(null, true);
-        } else {
-            cb(new Error('Only PDF and Word documents are allowed!'));
-        }
-    }
-});
-
-app.post('/api/uploadResume', upload.single('resume'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
-    }
-
-    res.json({
-        filePath: req.file.path,
-        fileName: req.file.filename
-    })
-ç
 });
 
 // get all projects or filter by type
@@ -158,43 +218,6 @@ app.get('/api/projects', async (req, res) => {
     }
 });
 
-// submit general application form
-app.post('/api/apply', express.json(), (req, res) => { 
-        const {
-            firstName, lastName, email, phone_number,
-            linkedInProfile, resume, coverLetter,
-            position, location, job_status, type
-        } = req.body;
-
-        // Here you would typically save the application data to your database
-        console.log("Received application:", req.body);
-
-        try {
-            const insertQuery = `INSERT INTO website_applications 
-                (first_name, last_name, email, phone_number, linkedin_url, resume_file_path, cover_letter, job_position, job_location, application_type, application_status) 
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id`;
-
-            const values = [
-                                firstName, lastName, email, phone_number, 
-                                linkedInProfile, resume, coverLetter,
-                                position, location, type, job_status
-                            ];
-
-            pool.query(insertQuery, values, (err, result) => {
-                if (err) {
-                    console.error('Error saving application', err.stack);
-                    return res.status(500).json({ error: 'Internal Server Error' });
-                }
-                const applicationId = result.rows[0].id;
-                console.log('Application saved with ID:', applicationId);
-                res.status(201).json({ message: 'Application submitted successfully', applicationId });
-            });
-
-        } catch (err) {
-            console.error('Error saving application', err.stack);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-});
 
 // submit quote form
 app.post('/api/quote', express.json(), async (req, res) => {
@@ -210,15 +233,32 @@ app.post('/api/quote', express.json(), async (req, res) => {
         const quoteId = result.rows[0].id;
 
         console.log('Quote request saved with ID:', quoteId);
+
+        const adminMailOptions = {
+            from: `American Traffic Construction <${process.env.EMAIL_FROM}>`,
+            to: process.env.ADMIN_EMAIL,
+            subject: 'New Quote Request from website',
+            html: `
+                <h2>New Quote Request Received</h2>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Project Details:</strong> ${projectDetails}</p>
+                <p><strong>Reference ID:</strong> #${quoteId}</p>
+            `
+        };
+
+        await transporter.sendMail(adminMailOptions);
+        console.log('Notification email sent to ${process.env.ADMIN_EMAIL}');
         
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
+        const clientMailOptions = {
+            from: `American Traffic Construction <${process.env.EMAIL_FROM}>`,
             to: email,
             subject: 'Quote Request Received - We\'ll Be in Touch',
             html: getEmailTemplate(name.split(' ')[0], quoteId, 'General Service', projectDetails)
         };
 
-        await transporter.sendMail(mailOptions);
+        await transporter.sendMail(clientMailOptions);
         console.log('Email sent to:', email);
 
         res.status(201).json({ message: 'Quote request submitted successfully', quoteId });
@@ -231,6 +271,36 @@ app.post('/api/quote', express.json(), async (req, res) => {
 });
 
 app.use(express.static(path.join(__dirname, "public")));
+
+
+// download endpoint for resumes
+app.get('/downloads/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await pool.query(
+            'SELECT resume_file_path FROM website_applications WHERE id = $1',
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Application not found' });
+        }
+
+        const filePath = result.rows[0].resume_file_path;
+
+        if (!filePath) {
+            return res.status(404).json({ error: 'Resume not found' });
+        }
+
+        // Assuming the filePath is a URL from Cloudinary
+        res.redirect(filePath);
+
+    } catch (err) {
+        console.error('Error processing download', err.stack);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 // home page
 app.get('/', (req, res) => {
