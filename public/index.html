@@ -29,16 +29,16 @@
             </button>
         </div>
 
-        <div class="application-position">
-            <h3 class="position-title">Traffic Signal Technician</h3>
+        <div class="application-position" for="position">
+            <h3 name="position" class="position-title">Traffic Signal Technician</h3>
             <div class="position-meta">
-                <span>
+                <span class="location">
                 <i class="fa-solid fa-location-dot"></i> 
-                    Fort Worth, TX
+                   <p>Fort Worth, TX</p>
                 </span>
-                <span>
-                <i class="fa-solid fa-briefcase"></i> 
-                    Full-Time
+                <span class="type">
+                    <i class="fa-solid fa-briefcase"></i> 
+                    <p>Full-Time</p>
                 </span>
             </div>
 
@@ -82,6 +82,13 @@
                     <label for="coverLetter">Cover Letter (Optional)</label>
                     <textarea name="coverLetter" id="coverLetter" placeholder="Tell us why you're interested in this position and what makes you a great fit..."></textarea>
             </div>
+
+            <!-- Hidden fields populated by JS -->
+            <input type="hidden" name="position" id="position">
+            <input type="hidden" name="location" id="location">
+            <input type="hidden" name="type" id="type">
+            <input type="hidden" name="job_status" id="job_status" value="pending">
+
             <div class="application-actions">
                 <button class="btn cancel">Cancel</button>
                 <button class="btn submit">Submit Application</button>
@@ -694,12 +701,15 @@
                                     </div>
                                     <div class="position-type">
                                         <i class="fa-regular fa-clock"></i>
-                                        <p>Full-time</p>
+                                        <p>Full-Time</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="apply">
-                                <button class="apply-btn">
+                                <button class="apply-btn"
+                                        data-position="Equipment Operator"
+                                        data-location="Fort Worth, TX"
+                                        data-type="Full-Time">
                                     Apply now
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </button>
@@ -721,7 +731,10 @@
                                 </div>
                             </div>
                             <div class="apply">
-                                <button class="apply-btn">
+                                <button class="apply-btn"
+                                        data-position="Traffic Signal Electrician"
+                                        data-location="Fort Worth, TX"
+                                        data-type="Full-time">
                                     Apply now
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </button>
@@ -743,7 +756,10 @@
                                 </div>
                             </div>
                             <div class="apply">
-                                <button class="apply-btn">
+                                <button class="apply-btn"
+                                        data-position="Signal Crew Leader/Foreman"
+                                        data-location="Fort Worth, TX"
+                                        data-type="Full-time">
                                     Apply now
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </button>
@@ -765,7 +781,10 @@
                                 </div>
                             </div>
                             <div class="apply">
-                                <button class="apply-btn">
+                                <button class="apply-btn"
+                                        data-position="Project Administrator"
+                                        data-location="Fort Worth, TX"
+                                        data-type="Full-time">
                                     Apply now
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </button>
@@ -850,8 +869,8 @@
                         </div>
                         
                         <div class="form-row">
-                            <label for="project">Project Details</label>
-                            <textarea name="project" placeholder="Tell us about your project requirements..." id="project"></textarea>
+                            <label for="projectDetails">Project Details</label>
+                            <textarea name="projectDetails" placeholder="Tell us about your project requirements..." id="projectDetails"></textarea>
                         </div>
                         <div class="form-actions">
                             <button type="submit" id="quoteSubmitBtn">

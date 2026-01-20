@@ -126,59 +126,92 @@ applicationCancelBtn.addEventListener('click', () => {
    
 })
 
-applicationSubmitBtn.addEventListener('click', () => {  
-    // submit application form
-    const applicationData = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phoneNumber').value,
-        position: applicationTitle.textContent,
-        resume: resumeInput.files[0] ? URL.createObjectURL(resumeInput.files[0]) : null,
-        linkedin: document.getElementById('linkedInProfile').value,
-        jobLocation: applicationMeta.querySelector('span:nth-child(1)').textContent.trim(),
-        jobType: applicationMeta.querySelector('span:nth-child(2)').textContent.trim(),
-        coverLetter: document.getElementById('coverLetter').value ? document.getElementById('coverLetter').value : null
-    };
+applicationSubmitBtn.addEventListener('click', async () => {  // ← Added async
+    // Get form values
+    const firstName = document.getElementById('firstName').value,
+          lastName = document.getElementById('lastName').value,
+          email = document.getElementById('email').value,
+          phone = document.getElementById('phoneNumber').value,
+          linkedInProfile = document.getElementById('linkedInProfile').value,
+          coverLetter = document.getElementById('coverLetter').value || null;
 
+    const type = applicationMeta.querySelector('span:nth-child(2)').textContent.trim(),
+          position = applicationTitle.textContent,
+          location = applicationMeta.querySelector('span:nth-child(1)').textContent.trim();
+
+    // Handle resume upload
+    let resumePath = null;
+    const resumeFile = resumeInput.files[0];
+
+    if (resumeFile) { 
+        try {
+            const formData = new FormData();
+            formData.append('resume', resumeFile);
+
+            // Upload resume to server
+            const uploadResponse = await fetch('/api/uploadResume', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const uploadResult = await uploadResponse.json();
+            resumePath = uploadResult.filePath;
+            console.log("Uploaded resume path:", resumePath);
+
+        } catch (err) {
+            console.error('Error uploading resume:', err);
+            alert('An error occurred while uploading your resume. Please try again later.');
+            return;
+        }
+    }
+
+    // Build application data
+    const applicationData = {
+        firstName,
+        lastName,
+        email,
+        phone_number: phone,
+        linkedInProfile,
+        resume: resumePath,
+        coverLetter,
+        position,
+        location,
+        type,
+        job_status: 'pending'
+    };
+        
     console.log("Submitting application:", applicationData);
 
-    // send application data to server
-    fetch('/api/apply', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(applicationData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Application response:", data);
-        if (data.applicationId) {
-            // show success message
+    // Submit application
+    try {
+        const response = await fetch('/api/apply', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(applicationData)
+        });
+
+        const result = await response.json();
+        console.log("Application response:", result);
+
+        if (result.applicationId) {
+            // Show success message
             successToastMessage.innerHTML = `
                 <div class="toast-header">
                     <p>Application Submitted!</p>
                 </div>
                 <div class="toast-message">
-                    <p>We'll review your application and get back to you</p>
+                    <p>Thank you for applying. We'll review your application and get back to you soon.</p>
                 </div>
             `;
             successToast.classList.add('show');
 
             setTimeout(() => {
-                successToast.classList.remove('show')
-            }, 3000)
+                successToast.classList.remove('show');
+            }, 4000);
 
-            // reset form
-            applicationData.firstName = '';
-            applicationData.lastName = '';
-            applicationData.email = '';
-            applicationData.phone = '';
-            applicationData.resume = null;
-            applicationData.linkedin = '';
-            applicationData.coverLetter = '';
-
+            // Reset form
             document.getElementById('firstName').value = '';
             document.getElementById('lastName').value = '';
             document.getElementById('email').value = '';
@@ -186,26 +219,25 @@ applicationSubmitBtn.addEventListener('click', () => {
             document.getElementById('linkedInProfile').value = '';
             document.getElementById('coverLetter').value = '';
             resumeInput.value = '';
-
             resumeButton.innerHTML = `
                 <i class="fa-solid fa-cloud-arrow-up"></i>
                 <p>Upload Resume (Max 2MB)</p>
             `;
 
+            // Close modal
             if (modalOverlay) {
                 modalOverlay.classList.remove('active');
                 document.body.style.overflow = 'scroll';
             }
+
         } else {
             alert('Failed to submit application. Please try again later.');
         }
-    })
-    .catch(error => {
-        console.error('Error submitting application:', error);
+            
+    } catch (err) {
+        console.error('Error submitting application:', err);
         alert('An error occurred while submitting your application. Please try again later.');
-    });
-
-   
+    }
 });
 
 careerGeneralApplication.addEventListener('click', () => {
