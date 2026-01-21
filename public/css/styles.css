@@ -73,6 +73,11 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 130px;
+}
+
 
 body {
     font-family: var(--font-body);
@@ -497,7 +502,7 @@ nav .services-links {
 
 .cert-container {
     border: 1px solid  #45565E;
-    padding: var(--spacing-lg);
+    padding: var(--spacing-sm);
     border-radius: var(--radius-xl);
     display: flex;
     background: var(--background-light);

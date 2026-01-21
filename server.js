@@ -129,9 +129,10 @@ const getEmailTemplate = (firstName, quoteId, serviceType, projectDescription) =
 // submit job application
 app.post('/api/applications', uploadResume.single('resume'), async (req, res) => {
     try {
-        const { firstName, lastName, email, phone, linkedInProfile, coverLetter, position, location, job_status, type } = req.body;
+        const { firstName, lastName, email, phone, linkedInProfile, coverLetter, position, location, type } = req.body;
 
-        const resumeFilePath = req.file.path ? req.file.path : null; // Cloudinary URL
+        const resumeFilePath = req.file ? req.file.path : null; // Cloudinary URL
+        const job_status = 'new';
 
         console.log("Received application:", { firstName, lastName, email, phone, linkedInProfile, resumeFilePath, coverLetter, position, location, type, job_status });
         // Save application data to the database
@@ -186,11 +187,11 @@ app.post('/api/applications', uploadResume.single('resume'), async (req, res) =>
         await transporter.sendMail(clientMailOptions);
         console.log('Confirmation email sent to:', email);
 
-        res.status(201).json({ message: 'Application submitted successfully' });
+        res.status(201).json({ success: true, message: 'Application submitted successfully' });
 
     } catch (err) {
         console.error('Error processing application', err.stack);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({success: false, message: 'Internal Server Error' });
     }
 
 });

@@ -137,7 +137,17 @@ modalCloseBtn.addEventListener('click', () => {
     if(modalOverlay) {
         modalOverlay.classList.remove('active');
         document.body.style.overflow = 'scroll'; 
+        // Reset form
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('phoneNumber').value = '';
+        document.getElementById('linkedInProfile').value = '';
+        document.getElementById('coverLetter').value = '';
     }
+
+    
+
    
    
 })
@@ -166,16 +176,16 @@ applicationSubmitBtn.addEventListener('click', async () => {
     
 
     console.log("Submitting application for:", 
-        "position title: ", positionTitle,
-        "location: ", positionLocation,
-        "position type: ", positionType,
-        "firstName: ", firstName,
-        "lastName: ", lastName,
-        "email: ", email,
-        "phone: ", phone,
-        "linkedInUrl: ", linkedInUrl,
-        "resumeFile: ", resumeFile,  // ← This will now show the actual file object or undefined
-        "coverLetter: ", coverLetter
+        "\nposition title: ", positionTitle,
+        "\nlocation: ", positionLocation,
+        "\nposition type: ", positionType,
+        "\nfirstName: ", firstName,
+        "\nlastName: ", lastName,
+        "\nemail: ", email,
+        "\nphone: ", phone,
+        "\nlinkedInUrl: ", linkedInUrl,
+        "\nresumeFile: ", resumeFile,  // ← This will now show the actual file object or undefined
+        "\ncoverLetter: ", coverLetter
     );
 
     // Validation
@@ -201,7 +211,7 @@ applicationSubmitBtn.addEventListener('click', async () => {
         formData.append('resume', resumeFile);
         console.log("Resume file attached:", resumeFile.name, resumeFile.size, "bytes");
     } else {
-        console.log("No resume file selected");
+        console.log("No resume file selected (optional)");
     }
 
     // Disable button
@@ -214,9 +224,10 @@ applicationSubmitBtn.addEventListener('click', async () => {
             body: formData
         });
 
-        if (response.ok) {
-            const result = await response.json();
-            console.log("Application response:", result);
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            console.log("Application submitted:", result);
 
             // Show success 
             successToastMessage.innerHTML = `
@@ -247,10 +258,17 @@ applicationSubmitBtn.addEventListener('click', async () => {
                 <p>PDF, DOC, or DOCX (Max 5MB)</p>
             `;
 
+            // Close modal
+            if (modalOverlay) {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+        } else {
+            // handle error response
+            console.error("❌ Submision failed:", result);
+            alert('Error:' + (result.message || 'Failed to submit application.'))
         }
-
-        
-
     } catch (error) {
         console.error('Error submitting application:', error);
         alert('An error occurred while submitting your application. Please try again later.');
@@ -259,11 +277,6 @@ applicationSubmitBtn.addEventListener('click', async () => {
         applicationSubmitBtn.disabled = false;
         applicationSubmitBtn.textContent = 'Submit Application';
 
-        // Close modal
-        if (modalOverlay) {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = 'scroll';
-        }
     }
 
     
@@ -342,6 +355,9 @@ form.addEventListener('submit', (e) => {
    
     const formData = new FormData(form);
     const formObject = Object.fromEntries(formData.entries());
+
+    quoteSubmitBtn.disabled = true;
+    quoteSubmitBtn.innerHTML = 'Submitting...'
    
     fetch('/api/quote', {
         method: 'POST',
@@ -370,6 +386,10 @@ form.addEventListener('submit', (e) => {
             }, 4000);
             // reset form
             form.reset();
+
+            quoteSubmitBtn.disabled = false;
+            quoteSubmitBtn.innerHTML = 'SEND MESSAGE';
+            
         } else {
             alert('Failed to submit quote request. Please try again later.');
         }

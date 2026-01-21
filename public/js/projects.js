@@ -10,7 +10,8 @@ function loadProjects() {
             console.log("projects data:", data);
             console.log("project count:", data.length);
             projectCount.textContent = `Showing ${data.length} projects`;
-            data.forEach(project => {
+            if (data.length > 0) {
+               data.forEach(project => {
                 console.log("project:", project)
                 const projectElement = document.createElement('div');
                 projectElement.classList.add('project');
@@ -37,7 +38,11 @@ function loadProjects() {
                     </div>
                 `;
                 projectsContainer.appendChild(projectElement);
-            });
+            }); 
+            } else {
+                projectsContainer.innerHTML = 'No projects found! 🫤';
+            }
+            
         })
         .catch(error => console.error('Error fetching projects:', error));
 } 
@@ -77,8 +82,8 @@ function filterProjects(category) {
         .then(data => {
             const totalShown = data.length;
             projectCount.textContent = `Showing ${totalShown} projects`;
-
-            data.forEach(project => {
+            if (totalShown > 0) {
+               data.forEach(project => {
                 
                 const projectElement = document.createElement('div');
                 projectElement.classList.add('project');
@@ -105,7 +110,16 @@ function filterProjects(category) {
                     </div>
                 `;
                 projectsContainer.appendChild(projectElement);
-            });
+                }); 
+            } else {
+                projectsContainer.innerHTML = `
+                <div style="text-align:center">
+                    <p style="font-size:1.5rem">No projects found! 🫤</p>
+                </div>`;
+                
+                
+            }
+            
         })
         .catch(error => console.error('Error fetching projects:', error));
 
