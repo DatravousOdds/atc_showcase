@@ -400,5 +400,34 @@ footer {
 
 
 
+@media (max-width: 992px) {}
 
+@media (max-width: 768px) {
+
+    #projects .filter-options {
+        overflow-x: scroll;
+        gap: var(--spacing-sm);
+        flex-wrap: nowrap;
+    }
+
+    
+}
+
+@media (max-width: 576px) {
+
+    #projects .filter-options {
+        display: flex;
+        overflow-x: scroll;
+        gap: var(--spacing-sm);
+        flex-wrap: nowrap;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-footer-content p {
+        text-align: center;
+    }
+}
 

@@ -93,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .s-padding {
-    padding: var(--spacing-3xl);
+    padding: var(--spacing-lg);
 }
 
 
@@ -388,7 +388,7 @@ nav .services-links {
 .hero {
     position: relative;
     background-color: var(--background-primary-darker);
-    padding: var(--spacing-3xl) var(--spacing-3xl);
+    padding: var(--spacing-lg);
     min-height: 100dvh;
     
 }
@@ -497,7 +497,7 @@ nav .services-links {
 
 .cert-container {
     border: 1px solid  #45565E;
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-lg);
     border-radius: var(--radius-xl);
     display: flex;
     background: var(--background-light);
@@ -548,7 +548,7 @@ nav .services-links {
 /* SERVICES */
 
 .services {
-    padding: var(--spacing-3xl) var(--spacing-3xl);
+    padding: var(--spacing-lg);
     background-color: var(--background-primary-darker);
     opacity: 0.9;
     background: repeating-linear-gradient(
@@ -674,7 +674,7 @@ nav .services-links {
 
 .about {
     background-color: var(--background-primary);
-    padding: var(--spacing-3xl) var(--spacing-md);
+    padding: var(--spacing-lg);
 }
 
 .about-content {
@@ -793,7 +793,7 @@ nav .services-links {
 
 .projects {
     background-color: var(--background-primary-darker);
-    padding: var(--spacing-2xl) var(--spacing-2xl);
+    padding: var(--spacing-lg);
 }
 
 .project-header {
@@ -946,7 +946,7 @@ nav .services-links {
 /* PROCESS */
 
 .process, .testimonials {
-    padding: var(--spacing-3xl) var(--spacing-3xl);
+    padding: var(--spacing-lg);
     
 }
 
@@ -1055,7 +1055,7 @@ nav .services-links {
 
 .testimonials {
     background-color: var(--background-primary-darker);
-    padding: var(--spacing-3xl) var(--spacing-xl);
+    padding: var(--spacing-lg);
 }
 
 .testimonial {
@@ -1330,7 +1330,7 @@ nav .services-links {
 
 .contact {
     background: var(--background-primary-darker);
-    padding: var(--spacing-3xl) var(--spacing-xl);
+    padding: var(--spacing-lg);
 }
 
 .contact-content {
@@ -1533,7 +1533,7 @@ form {
 footer {
     background: var(--background-light);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: var(--spacing-3xl) var(--spacing-2xl);
+    padding: var(--spacing-lg);
 }
 
 footer ul {
@@ -1640,6 +1640,24 @@ footer h4 {
 }
 
 /* MEDIA QUERY */
+@media (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    nav .services-links {
+        display: none;
+    }
+
+    .header-contact {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: flex;
+    }
+
+}
 @media (max-width: 768px) {
     nav .services-links,
     .header-contact {
@@ -1671,6 +1689,10 @@ footer h4 {
         display: none;
     }
 
+    .testimonials-container {
+        grid-template-columns: 1fr;
+    }
+
     
 
     .career-content {
@@ -1686,32 +1708,22 @@ footer h4 {
         gap: var(--spacing-xl);
     }
 
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
    
     
     
    
 
     
-}
-@media (max-width: 992px) {
-    .services-grid {
-        grid-template-columns: repeat(2,1fr);
-    }
-
-    nav .services-links {
-        display: none;
-    }
-
-    .header-contact {
-        display: none;
-    }
-
-    .mobile-menu {
-        display: flex;
-    }
-
 }
 @media (max-width: 576px) {
+
+    .hero {
+        min-height: 130dvh;
+    }
 
     .contacts {
         grid-template-columns: 1fr;
