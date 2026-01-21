@@ -189,7 +189,7 @@ applicationSubmitBtn.addEventListener('click', async () => {
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
     formData.append('email', email);
-    formData.append('phone_number', phone);
+    formData.append('phone', phone);
     formData.append('linkedInProfile', linkedInUrl);
     formData.append('coverLetter', coverLetter);
     formData.append('position', positionTitle);

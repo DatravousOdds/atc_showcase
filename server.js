@@ -157,7 +157,7 @@ app.post('/api/applications', uploadResume.single('resume'), async (req, res) =>
                 <h2>New Job Application Received</h2>
                 <p><strong>Name:</strong> ${firstName} ${lastName}</p>
                 <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Phone:</strong> ${phone_number}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
                 <p><strong>Position Applied For:</strong> ${position}</p>
                 <p><strong>Location:</strong> ${location}</p>
                 <p><strong>Application Type:</strong> ${type}</p>
