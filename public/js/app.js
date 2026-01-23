@@ -8,6 +8,7 @@ window.scrollTo(0, 0);
 
 
 
+
 const mobileMenuIcon = document.querySelector('.mobile-menu i');
 const iconContainer = document.querySelector('.mobile-menu');
 const mobileMenu = document.querySelector('.mobile-lg-menu');
@@ -36,6 +37,18 @@ const section = document.querySelector('#services');
 const resumeInput = document.getElementById('resume');
 const resumeButton = document.querySelector('.input-border');
 
+
+
+
+window.addEventListener('scroll', function() {
+    const navbar = this.document.querySelector('header');
+
+    if (this.window.scrollY > 200) {
+        navbar.classList.add('scrolled')
+    } else {
+        navbar.classList.remove('scrolled')
+    }
+});
 
 // ========== ANIMATION ON SCROLL ==========
 const observer = new IntersectionObserver((entries) => {
@@ -88,8 +101,6 @@ document.querySelectorAll('.reveal').forEach(el => {
     observer.observe(el);
 })
 
-
-
 // ========== RESUME UPLOAD HANDLING ==========
 resumeButton.addEventListener('click', () => {
     resumeInput.click();
@@ -133,6 +144,8 @@ resumeInput.addEventListener('change', (event) => {
     }
 });
 
+
+// =========== MODAL ACTIONS ===================
 modalCloseBtn.addEventListener('click', () => {
     if(modalOverlay) {
         modalOverlay.classList.remove('active');
@@ -150,15 +163,32 @@ modalCloseBtn.addEventListener('click', () => {
 
    
    
-})
+});
 
+iconContainer.addEventListener('click', () => {
+    const icon = iconContainer.querySelector('i');
+
+    if(mobileMenu.classList.contains('active')) {
+
+        mobileMenu.classList.remove('active');
+        icon.className = 'fa-solid fa-bars';
+    } else {
+        
+        mobileMenu.classList.add('active');
+        icon.className = 'fa-solid fa-xmark';
+    }
+    
+});
+
+
+// =========== APPLICATIONS ====================
 applicationCancelBtn.addEventListener('click', () => {
     if (modalOverlay) {
         modalOverlay.classList.remove('active');
         document.body.style.overflow = 'scroll';
     }
    
-})
+});
 
 applicationSubmitBtn.addEventListener('click', async () => {
     
@@ -308,48 +338,9 @@ careerGeneralApplication.addEventListener('click', () => {
     
     
 
-})
+});
 
-careerPositions.forEach((pos, idx) => {
-    
-    pos.addEventListener('click', () => {
-        const jobTitle = pos.querySelector('.career-info h4');
-        const fieldPosition = pos.querySelector('.career-info p');
-        const jobLocation = pos.querySelector('.info .city');
-        const jobStatus = pos.querySelector('.info .position-type');
-
-        applicationTitle.textContent = jobTitle.textContent;
-        applicationMeta.innerHTML = `
-            <span>
-                <i class="fa-solid fa-location-dot"></i> 
-                    <p id="location">${jobLocation.textContent}</p>
-                </span>
-                <span>
-                <i class="fa-solid fa-briefcase"></i> 
-                    <p id="type">${jobStatus.textContent}</p>
-                </span>
-        `;
-
-        modalOverlay.classList.add('active')
-        document.body.style.overflow = 'none';
-    })
-})
-
-iconContainer.addEventListener('click', () => {
-    const icon = iconContainer.querySelector('i');
-
-    if(mobileMenu.classList.contains('active')) {
-
-        mobileMenu.classList.remove('active');
-        icon.className = 'fa-solid fa-bars';
-    } else {
-        
-        mobileMenu.classList.add('active');
-        icon.className = 'fa-solid fa-xmark';
-    }
-    
-})
-
+// ========== QUOTE SUBMISSION ==============
 form.addEventListener('submit', (e) => {
     e.preventDefault();
    
@@ -389,7 +380,7 @@ form.addEventListener('submit', (e) => {
 
             quoteSubmitBtn.disabled = false;
             quoteSubmitBtn.innerHTML = 'SEND MESSAGE';
-            
+
         } else {
             alert('Failed to submit quote request. Please try again later.');
         }
@@ -406,16 +397,32 @@ form.addEventListener('submit', (e) => {
     
 })
 
-window.addEventListener('scroll', function() {
-    const navbar = this.document.querySelector('header');
 
-    if (this.window.scrollY > 200) {
-        navbar.classList.add('scrolled')
-    } else {
-        navbar.classList.remove('scrolled')
-    }
+
+
+
+
+careerPositions.forEach((pos, idx) => {
+    
+    pos.addEventListener('click', () => {
+        const jobTitle = pos.querySelector('.career-info h4');
+        const fieldPosition = pos.querySelector('.career-info p');
+        const jobLocation = pos.querySelector('.info .city');
+        const jobStatus = pos.querySelector('.info .position-type');
+
+        applicationTitle.textContent = jobTitle.textContent;
+        applicationMeta.innerHTML = `
+            <span>
+                <i class="fa-solid fa-location-dot"></i> 
+                    <p id="location">${jobLocation.textContent}</p>
+                </span>
+                <span>
+                <i class="fa-solid fa-briefcase"></i> 
+                    <p id="type">${jobStatus.textContent}</p>
+                </span>
+        `;
+
+        modalOverlay.classList.add('active')
+        document.body.style.overflow = 'none';
+    })
 })
-
-
-
-

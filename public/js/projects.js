@@ -46,35 +46,6 @@ function loadProjects() {
         })
         .catch(error => console.error('Error fetching projects:', error));
 } 
-
-
-
-loadProjects();
-
-
-
-filterOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        const filterValue = option.textContent.trim();
-        console.log("filter:",filterValue);
-
-        if (filterValue === "all") {
-            // Clear existing projects
-            projectsContainer.innerHTML = '';
-            loadProjects();
-            return;
-        }
-
-        // Clear existing projects
-        projectsContainer.innerHTML = '';
-
-        filterProjects(filterValue);
-        
-        
-    })
-})
-
-
 function filterProjects(category) {
     
     fetch(`/api/projects?type=${category}`)
@@ -125,3 +96,28 @@ function filterProjects(category) {
 
 
 }
+
+loadProjects();
+
+// =============== INIT EVENT LISTENERS ==========
+filterOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        const filterValue = option.textContent.trim();
+        console.log("filter:",filterValue);
+
+        if (filterValue === "all") {
+            // Clear existing projects
+            projectsContainer.innerHTML = '';
+            loadProjects();
+            return;
+        }
+
+        // Clear existing projects
+        projectsContainer.innerHTML = '';
+
+        filterProjects(filterValue);
+        
+        
+    })
+})
+
