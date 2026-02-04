@@ -1,7 +1,5 @@
 // =======================================
 // CONFIGURATION & CONSTANTS
-
-
 // =======================================
 const CONFIG = {
     SCROLL_THRESHOLD: 200,
@@ -25,6 +23,7 @@ const DOM = {
     mobileMenuIcon: document.querySelector('.mobile-menu i'),
     iconContainer: document.querySelector('.mobile-menu'),
     mobileMenu: document.querySelector('.mobile-lg-menu'),
+    mobileServices: document.querySelectorAll('.mobile-services li a'),
 
     // Forms
     quoteForm: document.getElementById('quoteForm'),
@@ -231,14 +230,27 @@ const MobileMenu = {
         if (!DOM.iconContainer) return;
 
         DOM.iconContainer.addEventListener('click', this.toggle.bind(this));
+        this.closeMenu();
     },
 
-    toogle() {
+    setIcon(isActive) {
         const icon = DOM.iconContainer.querySelector('i');
-        if (!icon || !DOM.mobileMenu) return;
-
-        const isActive = DOM.mobileMenu.classList.toggle('active');
         icon.className = isActive ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    },
+
+    toggle() {
+        if (!DOM.mobileMenu) return;
+        const isActive = DOM.mobileMenu.classList.toggle('active');
+        this.setIcon(isActive); 
+    },
+
+    closeMenu() {
+        DOM.mobileServices.forEach(service => {
+            service.addEventListener('click', () => {
+                DOM.mobileMenu.classList.remove('active');
+                this.setIcon(false);
+            })
+        })
     }
 };
 
@@ -498,6 +510,7 @@ function init() {
     console.log("🚀 Initializing application...");
 
     ScrollManager.init();
+    MobileMenu.init();
     AnimationObserver.init();
     ResumeUpload.init();
     CareerApplications.init();
