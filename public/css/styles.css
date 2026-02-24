@@ -1876,7 +1876,7 @@ footer h4 {
 @media (max-width: 480px) {
 
     .hero {
-        min-height: 210dvh;
+        min-height: 180dvh;
     }
 
     .contacts {
